@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 HUGGINGFACE_API_KEY = os.getenv("HF_API_KEY")
-MODEL_NAME = "distilgpt2"  # Faster to load
+MODEL_NAME = "gpt2"  # or another available model
 API_URL = f"https://api-inference.huggingface.co/models/{MODEL_NAME}"
 headers = {"Authorization": f"Bearer {HUGGINGFACE_API_KEY}"}
 

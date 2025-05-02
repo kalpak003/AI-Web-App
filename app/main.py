@@ -19,6 +19,9 @@ load_dotenv()
 
 app = FastAPI()
 
+
+app.mount("/resources", StaticFiles(directory="C:/AI WEB APP 1/resources"), name="resources")
+
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
@@ -75,7 +78,7 @@ async def serve_chat():
 
 @app.get("/login", response_class=FileResponse)
 def serve_login():
-    return FileResponse("frontend/login.html")
+    return FileResponse("frontend/index.html")
 
 
 class ChatRequest(BaseModel):

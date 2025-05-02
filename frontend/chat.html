@@ -24,26 +24,37 @@
       align-items: center;
     }
 
-    .user-icon {
-      cursor: pointer;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background-color: white;
-      color: black;
-      font-weight: bold;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 1px solid #ccc;
-      margin-right: 1rem;
-      position: relative;
-    }
+    .header-title {
+  display: flex;
+  align-items: center;
+}
+
+.ai-logo {
+  width: 48px;
+  height: 48px;
+  margin-right: 12px;
+}
+
+header h2 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.user-icon {
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
 
     .user-menu {
       display: none;
       position: absolute;
-      top: 50px;
+      top: 60px;
       right: 20px;
       background-color: white;
       border: 1px solid #ddd;
@@ -75,7 +86,6 @@
       text-align: left;
       cursor: pointer;
       font-size: 14px;
-      top: 55px;
     }
 
     .user-menu button:hover {
@@ -205,8 +215,11 @@
 
 <body>
   <header>
-    <h2>AI Chat</h2>
-    <div class="user-icon" id="userIcon">U</div>
+    <div class="header-title">
+      <img src="/resources/ai_icon.png" alt="AI Logo" class="ai-logo" />
+      <h2>AI Chat</h2>
+    </div>
+    <img src="/resources/user.png" alt="User Icon" class="user-icon" id="userIcon" />
     <div class="user-menu" id="userMenu">
       <ul>
         <li><button id="upgradePlanBtn">Upgrade Plan</button></li>
@@ -255,9 +268,6 @@
     updateCreditDisplay();
 
     document.addEventListener("DOMContentLoaded", () => {
-      const username = localStorage.getItem("username") || "U";
-      userIcon.textContent = username[0].toUpperCase();
-
       if (remainingCredits < costPerChat) {
         disableChat();
         appendMessage("System", "Insufficient credits. Please upgrade.", "ai");
@@ -302,7 +312,6 @@
         const data = await response.json();
         if (!response.ok) throw new Error(data.detail || "AI unavailable");
 
-        // Typing animation
         loadingMsg.innerHTML = `<strong>AI:</strong> <span class="typing-text"></span><span class="typing-cursor"></span>`;
         const typingSpan = loadingMsg.querySelector(".typing-text");
         const typingCursor = loadingMsg.querySelector(".typing-cursor");
@@ -313,9 +322,9 @@
           i++;
           if (i >= replyText.length) {
             clearInterval(typingInterval);
-            typingCursor.style.display = "none"; // Hide cursor after typing is done
+            typingCursor.style.display = "none";
           }
-        }, 30); // adjust speed here (lower is faster)
+        }, 30);
 
         const previousCredits = remainingCredits;
         remainingCredits -= costPerChat;

@@ -12,6 +12,10 @@ import os
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import status
 from app.services.huggingface import query_huggingface
+from pydantic import BaseModel
+from dotenv import load_dotenv
+load_dotenv()
+
 
 app = FastAPI()
 
@@ -72,6 +76,26 @@ async def serve_chat():
 @app.get("/login", response_class=FileResponse)
 def serve_login():
     return FileResponse("frontend/login.html")
+
+
+class ChatRequest(BaseModel):
+    message: str
+
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+@app.post("/api/chat/")
+def chat_with_ai(request: ChatRequest, token: str = Depends(oauth2_scheme)):
+    try:
+        logger.info(f"Received chat request: {request.message}")
+        response = query_huggingface(request.message)
+        logger.info(f"AI response: {response}")
+        return {"reply": response}
+    except Exception as e:
+        logger.error(f"Chat error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+    
 
 app.add_middleware(
     CORSMiddleware,

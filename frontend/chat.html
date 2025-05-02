@@ -1,185 +1,207 @@
-<style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    color: #333;
-  }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Chat</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
 
-  header {
-    background: #333;
-    color: white;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+    header {
+      background: #333;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-  .user-icon {
-    cursor: pointer;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: white;
-    color: black;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #ccc;
-    margin-right: 1rem;
-    position: relative;
-  }
+    .user-icon {
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: white;
+      color: black;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #ccc;
+      margin-right: 1rem;
+      position: relative;
+    }
 
-  .user-menu {
-    display: none;
-    position: absolute;
-    top: 50px;
-    right: 20px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    z-index: 1000;
-    width: 180px;
-  }
+    .user-menu {
+      display: none;
+      position: absolute;
+      top: 50px;
+      right: 20px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      z-index: 1000;
+      width: 180px;
+    }
 
-  .user-menu ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+    .user-menu ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
 
-  .user-menu li {
-    border-bottom: 1px solid #eee;
-  }
+    .user-menu li {
+      border-bottom: 1px solid #eee;
+    }
 
-  .user-menu li:last-child {
-    border-bottom: none;
-  }
+    .user-menu li:last-child {
+      border-bottom: none;
+    }
 
-  .user-menu button {
-    background: none;
-    border: none;
-    padding: 10px 20px;
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-    font-size: 14px;
-    top: 55px;
-  }
+    .user-menu button {
+      background: none;
+      border: none;
+      padding: 10px 20px;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      font-size: 14px;
+      top: 55px;
+    }
 
-  .user-menu button:hover {
-    background-color: #f5f5f5;
-  }
+    .user-menu button:hover {
+      background-color: #f5f5f5;
+    }
 
-  #creditCounter {
-    padding: 10px 20px;
-    background: #e0e0e0;
-    font-weight: bold;
-  }
+    #creditCounter {
+      padding: 10px 20px;
+      background: #e0e0e0;
+      font-weight: bold;
+    }
 
-  #chatContainer {
-    padding: 20px;
-    height: 400px;
-    overflow-y: auto;
-    background: white;
-    margin: 0 20px;
-    border: 1px solid #ccc;
-  }
+    main#chatContainer {
+      padding: 20px;
+      flex: 1;
+      overflow-y: auto;
+      background: white;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
 
-  #chatForm {
-    display: flex;
-    padding: 10px 20px;
-    background: #fafafa;
-  }
+    .message {
+      max-width: 70%;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      clear: both;
+      font-size: 14px;
+      line-height: 1.4;
+    }
 
-  #chatForm input {
-    flex: 1;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    margin-right: 10px;
-  }
+    .message.user {
+      background-color: #d9efff;
+      float: left;
+      text-align: left;
+    }
 
-  #chatForm button {
-    padding: 10px 20px;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
+    .message.ai {
+      background-color: #ffffff;
+      float: right;
+      text-align: left;
+      border: 1px solid #ddd;
+      position: relative;
+    }
 
-  #upgradeModal {
-    display: none;
-    position: fixed;
-    top: 0; 
-    left: 0;
-    width: 100%; 
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    z-index: 2000;
-    align-items: center;
-    justify-content: center;
-  }
+    .typing-cursor {
+      display: inline-block;
+      background-color: black;
+      width: 2px;
+      height: 1.5em;
+      margin-left: 2px;
+      animation: blink 0.8s infinite step-end;
+    }
 
-  #upgradeModal .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 300px;
-    text-align: center;
-    position: relative;
-  }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
 
-  #upgradeModal button {
-    padding: 8px 16px;
-    margin-top: 10px;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
+    #chatForm {
+      display: flex;
+      padding: 10px 20px;
+      background: #fafafa;
+      border-top: 1px solid #ccc;
+      position: sticky;
+      bottom: 0;
+      z-index: 10;
+    }
 
-  #closeModal {
-    position: absolute;
-    top: 10px;
-    right: 12px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-  }
+    #chatForm input {
+      flex: 1;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      margin-right: 10px;
+    }
 
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
+    #chatForm button {
+      padding: 10px 20px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
 
-  main {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-    background: white;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-  }
+    #upgradeModal {
+      display: none;
+      position: fixed;
+      top: 0; 
+      left: 0;
+      width: 100%; 
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
 
-  #chatForm {
-    display: flex;
-    padding: 10px 20px;
-    background: #fafafa;
-    border-top: 1px solid #ccc;
-    position: sticky;
-    bottom: 0;
-    z-index: 10;
-  }
-</style>
+    #upgradeModal .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
+      text-align: center;
+      position: relative;
+    }
+
+    #upgradeModal button {
+      padding: 8px 16px;
+      margin-top: 10px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #closeModal {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
 
 <body>
   <header>
@@ -238,7 +260,7 @@
 
       if (remainingCredits < costPerChat) {
         disableChat();
-        appendMessage("System", "Insufficient credits. Please upgrade.");
+        appendMessage("System", "Insufficient credits. Please upgrade.", "ai");
       }
     });
 
@@ -246,7 +268,7 @@
       e.preventDefault();
 
       if (remainingCredits < costPerChat) {
-        appendMessage("System", "Insufficient credits. Please upgrade.");
+        appendMessage("System", "Insufficient credits. Please upgrade.", "ai");
         disableChat();
         showUpgradeModal();
         return;
@@ -256,9 +278,9 @@
       if (!message) return;
 
       input.value = '';
-      appendMessage('You', message);
+      appendMessage('You', message, 'user');
 
-      const loadingMsg = appendMessage('AI', 'Thinking...');
+      const loadingMsg = appendMessage('AI', 'Thinking...', 'ai');
       submitBtn.disabled = true;
 
       try {
@@ -280,7 +302,20 @@
         const data = await response.json();
         if (!response.ok) throw new Error(data.detail || "AI unavailable");
 
-        loadingMsg.innerHTML = `<strong>AI:</strong> ${data.reply}`;
+        // Typing animation
+        loadingMsg.innerHTML = `<strong>AI:</strong> <span class="typing-text"></span><span class="typing-cursor"></span>`;
+        const typingSpan = loadingMsg.querySelector(".typing-text");
+        const typingCursor = loadingMsg.querySelector(".typing-cursor");
+        let i = 0;
+        const replyText = data.reply;
+        const typingInterval = setInterval(() => {
+          typingSpan.textContent += replyText.charAt(i);
+          i++;
+          if (i >= replyText.length) {
+            clearInterval(typingInterval);
+            typingCursor.style.display = "none"; // Hide cursor after typing is done
+          }
+        }, 30); // adjust speed here (lower is faster)
 
         const previousCredits = remainingCredits;
         remainingCredits -= costPerChat;
@@ -295,7 +330,7 @@
 
         if (remainingCredits < costPerChat) {
           disableChat();
-          appendMessage("System", "You're out of credits. Please upgrade.");
+          appendMessage("System", "You're out of credits. Please upgrade.", "ai");
         }
 
       } catch (error) {
@@ -307,9 +342,9 @@
       }
     });
 
-    function appendMessage(sender, text) {
+    function appendMessage(sender, text, type = 'ai') {
       const msgDiv = document.createElement('div');
-      msgDiv.className = 'message';
+      msgDiv.className = `message ${type}`;
       msgDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
       chatContainer.appendChild(msgDiv);
       chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -326,31 +361,22 @@
     }
 
     function showUpgradeModal() {
-      upgradeModal.style.display = "flex";
+      upgradeModal.style.display = 'flex';
     }
 
-    function hideUpgradeModal() {
-      upgradeModal.style.display = "none";
-    }
+    userIcon.addEventListener("click", () => {
+      userMenu.style.display = userMenu.style.display === "none" ? "block" : "none";
+    });
 
-    upgradeBtn.addEventListener("click", showUpgradeModal);
-    logoutBtn.addEventListener("click", () => {
-      localStorage.removeItem("token");
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('username');
       window.location.href = "/login";
     });
-    closeModal.addEventListener("click", hideUpgradeModal);
 
-    userIcon.addEventListener("click", (e) => {
-      e.stopPropagation();
-      userMenu.style.display = userMenu.style.display === "block" ? "none" : "block";
-    });
-
-    document.addEventListener("click", () => {
-      userMenu.style.display = "none";
-    });
-
-    userMenu.addEventListener("click", (e) => {
-      e.stopPropagation();
+    closeModal.addEventListener('click', () => {
+      upgradeModal.style.display = 'none';
     });
   </script>
 </body>
+</html>

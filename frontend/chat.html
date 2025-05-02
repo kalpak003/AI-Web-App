@@ -1,0 +1,62 @@
+<!-- frontend/chat.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Chat</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="chat-page">
+  <header>
+    <h2>AI Chat</h2>
+    <div class="user-icon" id="userIcon">👤</div>
+  </header>
+
+  <main id="chatContainer"></main>
+
+  <form id="chatForm">
+    <input type="text" id="userInput" placeholder="Type your message..." autocomplete="off" required />
+    <button type="submit">Send</button>
+  </form>
+
+  <script>
+    const chatContainer = document.getElementById('chatContainer');
+    const form = document.getElementById('chatForm');
+    const input = document.getElementById('userInput');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const message = input.value;
+      appendMessage('You', message);
+      input.value = '';
+
+      const token = localStorage.getItem('access_token');
+
+      const response = await fetch("http://localhost:8000/api/chat/", {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message })
+      });
+
+      const data = await response.json();
+      appendMessage('AI', data.reply || "Sorry, something went wrong.");
+    });
+
+    function appendMessage(sender, text) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'message';
+      msgDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
+      chatContainer.appendChild(msgDiv);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    // User icon click handler (to be implemented later)
+    document.getElementById("userIcon").addEventListener("click", () => {
+      alert("User menu coming soon!");
+    });
+  </script>
+</body>
+</html>

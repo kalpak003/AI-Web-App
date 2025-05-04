@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>About Us</title>
+  <style>
+    /* Reset & base styles */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4f8;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+    .about-container {
+      background: #ffffff;
+      max-width: 350px;
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+    .about-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+    .about-content {
+      padding: 20px;
+    }
+    .about-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 0 0 0.3rem 0;
+      color: #004aad;
+    }
+    .about-subtitle {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0077cc;
+      margin-bottom: 1rem;
+    }
+    .about-description {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #555;
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #004aad;
+      margin: 1.5rem 0 0.8rem 0;
+    }
+    .section-content {
+      font-size: 0.95rem;
+      color: #444;
+      line-height: 1.5;
+      text-align: left;
+      margin-bottom: 1.5rem;
+    }
+    .architecture-diagram {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    /* Responsive text sizing */
+    @media (max-width: 400px) {
+      .about-title {
+        font-size: 1.5rem;
+      }
+      .about-subtitle,
+      .about-description,
+      .section-title,
+      .section-content {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="about-container" role="main" aria-label="About Us Section">
+    <img 
+      class="about-image" 
+      src="https://images.pexels.com/photos/3183186/pexels-photo-3183186.jpeg?auto=compress&cs=tinysrgb&w=600" 
+      alt="Team collaborating in office" 
+      loading="lazy"
+    />
+    <div class="about-content">
+      <h1 class="about-title">About Us</h1>
+      <h2 class="about-subtitle">Passion. Innovation. Excellence.</h2>
+      <p class="about-description">
+        We are a team of dedicated professionals committed to delivering top-quality solutions that empower and inspire. Our expertise and passion drive us to innovate constantly and exceed expectations.
+      </p>
+
+      <h3 class="section-title">API Design Justification</h3>
+      <p class="section-content">
+        In today's digital era, artificial intelligence (AI) has become a transformative force, enabling intelligent, real-time user interactions across platforms. Our application leverages this power by allowing users to register, log in, and engage in meaningful conversations with an AI system through a chat interface. Upon logging in, users are allocated a certain number of credit points that govern their ability to ask questions—each interaction deducts two points. These user messages are sent to an AI model via the Hugging Face API, which processes and returns insightful responses. The system logs both user inputs and AI outputs for transparency and performance monitoring. As credits diminish, the system alerts users through pop-ups, prompting them to recharge via a structured and secure planning interface; once the balance hits zero, a recharge becomes mandatory to continue. This integration of AI not only enhances user experience but also introduces a controlled usage model that ensures fair and efficient access. Looking ahead, the system holds promising potential for future upgrades such as personalized responses, voice interaction, multilingual support, and deeper integrations, ultimately helping users access intelligent assistance anytime, anywhere.
+      </p>
+
+      <h3 class="section-title">System Architecture</h3>
+      <img 
+        class="architecture-diagram" 
+        src="https://upload.wikimedia.org/wikipedia/commons/0/0b/AI_Web_Application_Diagram.png" 
+        alt="AI Web Application Architecture" 
+        loading="lazy"
+      />
+    </div>
+  </section>
+</body>
+</html>
